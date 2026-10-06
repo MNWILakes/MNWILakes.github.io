@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1a66d6">
+<meta name="description" content="Wholesaling CRM - offline, private, all data stays on this device. Optional read-only Google Contacts sync.">
+<title>Wholesale CRM</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="stylesheet" href="css/app.css">
+<script>try{var t=localStorage.getItem('crm-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="brand"><img src="icons/icon.svg" alt=""><span>Wholesale CRM</span></div>
+    <div class="search-wrap">
+      <button class="btn hide-d" id="filterBtn" aria-label="Filters">☰<span id="filterCountM"></span></button>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search name, phone, address, label, notes…" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-label="Search">
+        <span class="kbd">/</span>
+        <button class="clear hidden" id="qclear" aria-label="Clear search">✕</button>
+      </div>
+    </div>
+    <nav class="topnav" id="topnav">
+      <a href="#dashboard" data-v="dashboard">Dashboard</a>
+      <a href="#contacts" data-v="contacts">Contacts</a>
+      <a href="#queue" data-v="queue">Call Queue <span class="badge hidden" data-qbadge></span></a>
+      <a href="#settings" data-v="settings">Settings</a>
+    </nav>
+  </header>
+  <div id="gBanner" class="gbanner hidden" role="status"><span class="grow">Google Contacts sync is paused – the sign-in expired.</span><button class="btn sm primary" id="gReconnect">Reconnect Google</button><button class="btn sm ghost" id="gBannerX" aria-label="Dismiss">✕</button></div>
+  <main id="main">
+    <section class="view" id="v-dashboard"></section>
+    <section class="view contacts hidden" id="v-contacts">
+      <aside class="filters" id="filters">
+        <div class="drawer-head"><span class="grow">Filters</span><button class="btn ghost" id="drawerClose" aria-label="Close filters">✕</button></div>
+        <div class="fbody" id="filterBody"></div>
+        <div class="drawer-foot"><button class="btn" id="drawerClear">Clear all</button><button class="btn primary" id="drawerShow">Show results</button></div>
+      </aside>
+      <div class="overlay" id="overlay"></div>
+      <div class="listpane">
+        <div class="listbar">
+          <div class="activefilters" id="activeFilters"></div>
+          <span class="muted small" id="resultCount"></span>
+          <select id="sortSel" class="hide-d btn sm" aria-label="Sort">
+            <option value="name:1">Name A–Z</option><option value="lc:-1">Last contact (recent)</option><option value="lc:1">Last contact (oldest)</option>
+            <option value="fu:1">Next follow-up</option><option value="prio:1">Priority</option><option value="org:1">Organization</option><option value="added:-1">Date added (newest)</option>
+          </select>
+          <button class="btn sm hide-m" id="addContact">+ Contact</button>
+          <button class="btn sm hide-m" id="exportFiltered" title="Export the contacts currently shown">Export shown</button>
+        </div>
+        <div class="thead" id="thead">
+          <span data-s="name">Name</span><span data-s="org">Organization</span><span data-s="phone">Phone</span><span data-s="prio">Priority</span>
+          <span data-s="labels">Labels</span><span data-s="addr">Property address</span><span data-s="lc">Last contact</span><span data-s="fu">Follow-up</span><span data-s="added">Added</span>
+        </div>
+        <div class="vlist" id="vlist" tabindex="-1"><div class="vspacer" id="vspacer"><div class="vrows" id="vrows"></div></div></div>
+      </div>
+      <button class="fab" id="fabAdd" aria-label="Add contact">+</button>
+    </section>
+    <section class="view hidden" id="v-queue" style="display:flex;flex-direction:column"></section>
+    <section class="view hidden settings" id="v-settings"></section>
+  </main>
+  <nav class="bottomnav" id="bottomnav">
+    <a href="#dashboard" data-v="dashboard"><span class="ic">⌂</span>Dashboard</a>
+    <a href="#contacts" data-v="contacts"><span class="ic">☷</span>Contacts</a>
+    <a href="#queue" data-v="queue"><span class="ic">☎</span>Call Queue<span class="badge hidden" data-qbadge></span></a>
+    <a href="#settings" data-v="settings"><span class="ic">⚙</span>Settings</a>
+  </nav>
+</div>
+<div id="detailHost"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="fileAny" class="hidden">
+<script src="vendor/papaparse.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/extract.js"></script>
+<script src="js/gsync.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
